@@ -1,0 +1,75 @@
+<!--
+Author: Dominic Antonelli
+Course: JavaScript Fundamentals
+Date: July 28, 2025
+Description: This script demonstrates for loops, do...while loops, and array handling in JavaScript.
+Reference: Assisted by ChatGPT 4.0
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Loops and Arrays in JavaScript</title>
+</head>
+<body>
+
+<h2>JavaScript Demonstration</h2>
+<div id="output"></div>
+
+<script>
+const output = document.getElementById("output");
+
+// For loop runs until the 10th iteration
+for (let i = 0; i <= 10; i++) {
+    // Use modulo (%) to check for even (i % 2 === 0) or odd numbers
+    if (i % 2 === 0) {
+        output.innerHTML += `Count ${i} is even<br>`;
+    } else {
+        output.innerHTML += `Count ${i} is odd<br>`;
+    }
+}
+
+output.innerHTML += `<hr>`;
+
+// Do-while loop
+
+// User inputs a number and the program checks if the input is in the valid range
+let myNum = parseInt(prompt("Enter a number between 5 and 20:"));
+
+while (isNaN(myNum) || myNum < 5 || myNum > 20) {
+    myNum = parseInt(prompt("Invalid input. Please enter a number between 5 and 20:"));
+}
+
+// Initialize counter at 1
+let counter = 1;
+
+// Do...while loop always runs at least once
+do {
+    output.innerHTML += `Counter is: ${counter}<br>`;
+    counter++;
+} while (counter <= myNum);
+
+output.innerHTML += `<hr>`;
+
+// Array of school subjects
+
+// Declare array
+let subjects = ["Accounting", "Algebra", "Programming", "Art", "Data Analytics"];
+
+// Display each item
+output.innerHTML += `<strong>Subjects List:</strong><br>`;
+subjects.forEach(function(subject) {
+    output.innerHTML += `${subject}<br>`;
+});
+
+output.innerHTML += `<hr>`;
+
+// Display all subjects in a single line, separated by commas
+output.innerHTML += `<strong>Subjects (comma-separated):</strong><br>`;
+output.innerHTML += subjects.join(", ");
+
+</script>
+
+</body>
+</html>
