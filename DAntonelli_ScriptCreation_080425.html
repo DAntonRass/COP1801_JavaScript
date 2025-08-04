@@ -1,0 +1,69 @@
+!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tip Calculator</title>
+</head>
+<body>
+    <h1>Tip Calculator</h1>
+
+    <script>
+        /*
+        Author: Dominic Antonelli
+        Description: A simple tip calculator using JavScript.
+		Reference: Written with help from ChatGPT 4o.
+        */
+
+        // Function to validate service quality input
+        function validateQuality(quality) {
+            quality = quality.toLowerCase(); // Normalize input
+            if (quality === "great" || quality === "ok" || quality === "poor") {
+                return quality; // Valid input
+            } else {
+                alert("Invalid service quality entered. Please reload and enter Great, Ok, or Poor.");
+                throw new Error("Invalid service quality"); // End program
+            }
+        }
+
+        // Function to validate service amount
+        function validateAmount(amount) {
+            amount = parseFloat(amount); // Convert input to a number
+            if (!isNaN(amount) && amount >= 5 && amount <= 500) {
+                return amount; // Valid input
+            } else {
+                alert("Invalid service amount. Please reload and enter a value between $5.00 and $500.00.");
+                throw new Error("Invalid service amount"); // End program
+            }
+        }
+
+        // Function to calculate the tip
+        function calculateTip(amount, quality) {
+            let percentage;
+            if (quality === "great") {
+                percentage = 0.20;
+            } else if (quality === "ok") {
+                percentage = 0.15;
+            } else {
+                percentage = 0.10;
+            }
+            return amount * percentage; // Return calculated tip
+        }
+
+        // Main Program Execution
+        let serviceAmount = prompt("Enter the dollar amount of the service (between $5 and $500):");
+        let serviceQuality = prompt("Enter the service quality (Great, Ok, Poor):");
+
+        // Validate user inputs
+        serviceAmount = validateAmount(serviceAmount);
+        serviceQuality = validateQuality(serviceQuality);
+
+        // Calculate tip
+        let tip = calculateTip(serviceAmount, serviceQuality);
+
+        // Show result
+        alert("Service amount: $" + serviceAmount.toFixed(2) +
+              "\nService quality: " + serviceQuality +
+              "\nRecommended tip: $" + tip.toFixed(2));
+    </script>
+</body>
+</html>
