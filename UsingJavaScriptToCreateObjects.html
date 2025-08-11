@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dog Objects – Naga</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 24px; }
+    button { padding: 8px 14px; cursor: pointer; }
+    pre { background:#f6f6f6; padding:12px; white-space:pre-wrap; }
+  </style>
+</head>
+<body>
+  <h1>Fictional Dogs (Animated TV) — Naga</h1>
+  <p>This page creates a literal object and a constructor-made object, adds a method, and displays values.</p>
+  <button id="showBtn">Show Greetings</button>
+  <pre id="output"></pre>
+
+  <script>
+    // ===========================
+    // STEP 1: LITERAL OBJECT (myDog)
+    // ===========================
+    const myDog = {
+      name: "Naga",
+      breed: "Polar bear-dog",
+      show: "The Legend of Korra",
+      role: "Loyal mount and companion to Avatar Korra",
+      owner: "Korra",
+      creator: "Michael Dante DiMartino & Bryan Konietzko",
+      firstAppearance: 2012,
+      gender: "Female",
+      mySound: "I’m gentle but powerful—more rumble than bark.",
+      // Method to produce a greeting using this object's data
+      myGreeting: function () {
+        return `Hello, my name is ${this.name}, ${this.mySound}
+I starred in the TV show ${this.show}.
+My character was a ${this.breed}.
+I was the ${this.role.toLowerCase()} in a story about a modernizing world.`;
+      }
+    };
+
+    // ===========================
+    // STEP 2: CONSTRUCTOR (Dog) + myDogConst
+    // Adds the same properties + canTalk boolean
+    // ===========================
+    function Dog(name, breed, show, role, owner, creator, firstAppearance, gender, mySound, canTalk) {
+      this.name = name;
+      this.breed = breed;
+      this.show = show;
+      this.role = role;
+      this.owner = owner;
+      this.creator = creator;
+      this.firstAppearance = firstAppearance;
+      this.gender = gender;
+      this.mySound = mySound;
+      this.canTalk = canTalk;
+
+      // STEP 3: METHOD (myGreeting) stored on the object
+      this.myGreeting = function () {
+        const talkLine = this.canTalk ? "I can talk!" : "I don’t speak—just gruffs and rumbles.";
+        return `Hello, my name is ${this.name}, ${this.mySound}
+I starred in the TV show ${this.show}.
+My character was a ${this.breed}.
+I was the ${this.role.toLowerCase()}.
+${talkLine}`;
+      };
+    }
+
+    const myDogConst = new Dog(
+      "Naga",
+      "Polar bear-dog",
+      "The Legend of Korra",
+      "Loyal mount and companion to Avatar Korra",
+      "Korra",
+      "Michael Dante DiMartino & Bryan Konietzko",
+      2012,
+      "Female",
+      "I’m gentle but powerful—more rumble than bark.",
+      false // canTalk
+    );
+
+    // ===========================
+    // STEP 4: DISPLAY VALUES
+    // Button prints both greetings to the page
+    // ===========================
+    document.getElementById("showBtn").addEventListener("click", function () {
+      const out = [
+        "— Literal Object —",
+        myDog.myGreeting(),
+        "",
+        "— Constructor Object —",
+        myDogConst.myGreeting()
+      ].join("\n");
+      document.getElementById("output").textContent = out;
+    });
+  </script>
+</body>
+</html>
