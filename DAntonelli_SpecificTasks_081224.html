@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>JS Objects – Constructor & Methods</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 24px; }
+    button { padding: 8px 12px; margin-right: 8px; cursor: pointer; }
+    pre { background:#f6f6f6; padding:12px; white-space:pre-wrap; }
+    .err { color: #b00020; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>Fictional Dogs (Animated TV)</h1>
+  <p>Now using a constructor to create multiple dog objects and a method that reports if the dog can talk.</p>
+
+  <div>
+    <button id="listBtn">List All Dogs</button>
+    <button id="pickBtn">Pick a Dog (by name)</button>
+  </div>
+
+  <h2>All Dogs (properties via <code>for...in</code>)</h2>
+  <pre id="allOutput"></pre>
+
+  <h2>Selected Dog</h2>
+  <p id="selectedTitle"></p>
+  <pre id="selectedProps"></pre>
+  <p id="greeting"></p>
+
+<script>
+
+	// Creates a Dog with shared properties. The greeting reports canTalk via a conditional.
+    function Dog(name, breed, show, role, owner, creator, firstAppearance, gender, mySound, canTalk) {
+      this.name = name;
+      this.breed = breed;
+      this.show = show;
+      this.role = role;
+      this.owner = owner;
+      this.creator = creator;
+      this.firstAppearance = firstAppearance;
+      this.gender = gender;
+      this.mySound = mySound;
+      this.canTalk = canTalk;
+    }
+
+    // Method stored on the prototype; uses "this" + conditional on canTalk
+    Dog.prototype.myGreeting = function () {
+      const talkLine = this.canTalk ? "I can talk!" : "I cannot talk.";
+      return `Hello, my name is ${this.name}, ${this.mySound}
+I starred in the TV show ${this.show}.
+My character was a ${this.breed}.
+I was the ${this.role.toLowerCase()}.
+${talkLine}`;
+    };
+	
+	// Instances
+	const naga  = new Dog(
+      "Naga", "Polar bear-dog", "The Legend of Korra",
+      "Loyal mount and companion to Avatar Korra", "Korra",
+      "Michael Dante DiMartino & Bryan Konietzko", 2012, "Female",
+      "I’m gentle but powerful—more rumble than bark.", false
+    );
+
+    const astro = new Dog(
+      "Astro", "Great Dane", "The Jetsons",
+      "Family dog in a futuristic family", "The Jetsons (family)",
+      "Hanna-Barbera", 1962, "Male",
+      "When I bark, I'm not scary—mostly friendly woofs.", true
+    );
+
+    const brian = new Dog(
+      "Brian Griffin", "Labrador Retriever (anthropomorphic)", "Family Guy",
+      "Talking family dog and friend", "The Griffin family",
+      "Seth MacFarlane", 1999, "Male",
+      "I’m witty, dry, and very articulate for a dog.", true
+    );
+
+    const dogs = [naga, astro, brian];
+
+    // Index by lowercase name for quick lookup from user input
+    const dogsByName = Object.fromEntries(dogs.map(d => [d.name.toLowerCase(), d]));
+
+	const allOutput = document.getElementById("allOutput");
+    const pickBtn = document.getElementById("pickBtn");
+    const listBtn = document.getElementById("listBtn");
+    const selectedTitle = document.getElementById("selectedTitle");
+    const selectedProps = document.getElementById("selectedProps");
+    const greeting = document.getElementById("greeting");
+
+    // List all dogs: use for...in to label each property/value
+    listBtn.addEventListener("click", () => {
+      let lines = [];
+      for (const dog of dogs) {
+        lines.push(`— ${dog.name} —`);
+        for (const key in dog) {
+          // Skip functions if any end up enumerable
+          if (typeof dog[key] === "function") continue;
+          lines.push(`${key}: ${dog[key]}`);
+        }
+        lines.push(""); // blank line between dogs
+      }
+      allOutput.textContent = lines.join("\n");
+    });
+
+    // Prompt user to select a dog; show properties + call myGreeting()
+    pickBtn.addEventListener("click", () => {
+      const choice = prompt("Type a dog’s name (e.g., Naga, Astro, Brian Griffin):");
+      if (!choice) return;
+
+      const dog = dogsByName[choice.toLowerCase()];
+      if (!dog) {
+        selectedTitle.innerHTML = "";
+        selectedProps.textContent = "";
+        greeting.innerHTML = `<span class="err">Error: That dog is not in the list.</span>`;
+        return;
+      }
+
+      selectedTitle.textContent = `You selected: ${dog.name}`;
+      let propLines = [];
+      for (const key in dog) {
+        if (typeof dog[key] === "function") continue;
+        propLines.push(`${key}: ${dog[key]}`);
+      }
+      selectedProps.textContent = propLines.join("\n");
+
+      // Call method to include the “I can talk!” / “I cannot talk.” line
+      greeting.textContent = dog.myGreeting();
+    });
+  </script>
+</body>
+</html>
